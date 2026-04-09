@@ -19,17 +19,16 @@ int main() {
   if (pid < 0) {
     perror("Error al crear al hijo");
   } else if (pid == 0) {
-    for (int i = 0; i < 70000; i++) {
-      sumas[0] += 1;
-    }
+    sumarSegundaMitad(sumas, datos);
+    munmap(sumas, 2 * sizeof(int));
     exit(EXIT_SUCCESS);
   } else if (pid > 0) {
-    for (int i = 0; i < 70000; i++) {
-      sumas[0] -= 1;
-    }
+    sumarPrimeraMitad(sumas, datos);
+    wait(NULL);
+    printf("%d\n", sumas[0]);
+    printf("%d", sumas[1]);
+    munmap(sumas, 2 * sizeof(int));
   }
-  wait(NULL);
-  printf("%d", sumas[0]);
 
   return EXIT_SUCCESS;
 }
