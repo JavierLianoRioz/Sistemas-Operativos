@@ -38,6 +38,7 @@ void sumarPrimeraMitad(int *sumas, int *datos) {
     sumas[0] += datos[i];
   }
 }
+
 void sumarSegundaMitad(int *sumas, int *datos) {
   for (int i = N / 2; i < N; i++) {
     sumas[1] += datos[i];
