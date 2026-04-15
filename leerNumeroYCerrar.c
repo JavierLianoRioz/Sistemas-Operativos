@@ -14,21 +14,9 @@
 #include <unistd.h>
 #include <wait.h>
 
-int isPadre(pid_t pid) {
-  if (pid > 0) {
-    return EXIT_SUCCESS;
-  } else {
-    return EXIT_FAILURE;
-  };
-}
+int isPadre(pid_t pid) { return pid > 0; }
 
-int isHijo(pid_t pid) {
-  if (pid == 0) {
-    return EXIT_SUCCESS;
-  } else {
-    return EXIT_FAILURE;
-  };
-}
+int isHijo(pid_t pid) { return pid == 0; }
 
 void errorAlCrearHijo(pid_t pid) {
   if (pid < 0) {
@@ -65,29 +53,30 @@ int main(void) {
     errorAlCrearHijo(escribe);
 
     if (isHijo(escribe)) {
+      puts("Introduce un numero a leer");
       while (*haEscritoPrimeraRespuesta) {
         sleep(2);
-        puts("Esperando");
       }
       escribirPorPantalla(*numero);
-      while (!*haEscritoSegundoRespuesta) {
+      puts("Introduce un numero para terminar");
+      while (*haEscritoSegundoRespuesta) {
         sleep(2);
-        puts("Esperando");
       }
       exit(EXIT_SUCCESS);
     }
+
+    wait(NULL);
+    wait(NULL);
   }
 
   if (isHijo(lee)) {
     *numero = leerPorPantalla();
-    *haEscritoPrimeraRespuesta = -1;
+    *haEscritoPrimeraRespuesta = 0;
     puts("Has escrito la primer respuesta");
     *numero = leerPorPantalla();
-    *haEscritoSegundoRespuesta = -1;
+    *haEscritoSegundoRespuesta = 0;
     exit(EXIT_SUCCESS);
   }
-
-  wait(NULL);
 
   return EXIT_SUCCESS;
 }
